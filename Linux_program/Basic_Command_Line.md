@@ -88,12 +88,13 @@
 
 **DOS/Windows format** to **Unix format**:
 
-#### Gedit:
-- Similar to Notepad in Windows
-
 ```bash
 dos2unix file.txt
 ```
+
+#### Gedit:
+- Similar to Notepad in Windows
+
 #### Nano:
 - Open file: `nano <file>`
 - Save file: `Ctrl + O`, then `Enter`
