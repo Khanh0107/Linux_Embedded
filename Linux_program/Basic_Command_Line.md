@@ -94,6 +94,7 @@ dos2unix file.txt
 
 #### Gedit:
 - Similar to Notepad in Windows
+- Open file: `gedit <file>`
 
 #### Nano:
 - Open file: `nano <file>`
