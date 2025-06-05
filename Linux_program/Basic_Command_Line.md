@@ -88,6 +88,9 @@
 
 **DOS/Windows format** to **Unix format**:
 
+#### Gedit:
+- Similar to Notepad in Windows
+
 ```bash
 dos2unix file.txt
 ```
