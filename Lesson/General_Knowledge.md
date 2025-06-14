@@ -134,11 +134,7 @@ Combining Object Files to Create an Executable
 
 ## 3. Static Library and Shared Library in Linux
 
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#3-static-library-and-shared-library-in-linux)
-
 ### 3.1. What is a Library?
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#31-what-is-a-library)
 
 A  **library**  is a collection of precompiled code that can be reused in different programs. Instead of writing the same code multiple times, developers can use libraries to improve efficiency and maintainability. Libraries are mainly divided into two types:
 
@@ -147,34 +143,23 @@ A  **library**  is a collection of precompiled code that can be reused in differ
 
 ### 3.2. Static Library
 
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#32-static-library)
-
-[![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/static_lib.png)
+![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/static_lib.png)
 
 #### Definition
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#definition)
 
 A  **static library**  is a set of compiled object files (`.o`) that are linked directly into an executable during the compilation phase.
 
 #### How It Works
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#how-it-works)
-
 -   All functions from the library are copied into the executable at  **compile time**.
 -   The resulting executable is  **self-contained**, meaning it does not require external dependencies at runtime.
 
 #### ✅ Advantages
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#-advantages)
 
 -   Faster execution time (no runtime linking).
 -   No dependency on external library files at runtime.
 -   Ideal for standalone applications.
 
 #### ❌ Disadvantages
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#-disadvantages)
 
 -   Increases the size of the executable because it contains copies of all required functions.
 -   If the library is updated, the entire program needs to be  **recompiled**.
@@ -192,7 +177,7 @@ gcc main.c -o main_program -L. -lmath
 ```
 
 ### 3.3. Shared Library
-[![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/dynamic_lib.png)
+![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/dynamic_lib.png)
 
 #### Definition
 
@@ -204,13 +189,12 @@ A  **shared library**  is a collection of compiled functions that multiple progr
 -   At runtime, the  **dynamic linker (`ld.so`)**  loads the required library into memory.
 
 #### ✅ Advantages
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#-advantages-1)
 
 -   Reduces the size of executables because the functions are not copied.
 -   Multiple programs can share the same library in memory.
 -   If the library is updated, all dependent programs automatically benefit without recompilation.
 
-#### ❌ Disadvantages[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#-disadvantages-1)
+#### ❌ Disadvantages
 
 -   Slightly slower execution due to  **dynamic linking**  at runtime.
 -   If the shared library is missing or incompatible, the program may fail to run.
@@ -250,7 +234,7 @@ export LD_LIBRARY_PATH=.
 | Large software projects with frequent updates | **Shared Library** |
 | Applications that multiple programs will use | **Shared Library** |
 
-### 3.6. Creating Libraries in Linux (Reference)[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#36-creating-libraries-in-linux-reference)
+### 3.6. Creating Libraries in Linux (Reference)
 
 For more detailed steps and command-line instructions on creating static and shared libraries, refer to:  
 👉  [Creating Libraries with GCC](https://renenyffenegger.ch/notes/development/languages/C-C-plus-plus/GCC/create-libraries/index)
