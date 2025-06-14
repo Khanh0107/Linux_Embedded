@@ -149,7 +149,7 @@ A  **library**  is a collection of precompiled code that can be reused in differ
 
 [](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#32-static-library)
 
-[![Image](https://github.com/Tdieney/Embedded_Linux/raw/main/99_Docs/LinuxProgramming/img/static_lib.png)](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/img/static_lib.png)
+[![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/static_lib.png)
 
 #### Definition
 
@@ -180,9 +180,7 @@ A  **static library**  is a set of compiled object files (`.o`) that are linked 
 -   If the library is updated, the entire program needs to be  **recompiled**.
 
 #### Example: Creating and Using a Static Library
-
-[](https://github.com/Tdieney/Embedded_Linux/blob/main/99_Docs/LinuxProgramming/01.%20General%20Knowledge.md#example-creating-and-using-a-static-library)
-
+```sh
 # Step 1: Compile source files into object files
 gcc -c libmath.c -o libmath.o
 
@@ -191,6 +189,7 @@ ar rcs libmath.a libmath.o
 
 # Step 3: Link the static library with an executable
 gcc main.c -o main_program -L. -lmath
+```
 
 ### 3.3. Shared Library
 [![Image](https://github.com/Khanh0107/linux/blob/main/Lesson/dynamic_lib.png)
@@ -217,7 +216,7 @@ A  **shared library**  is a collection of compiled functions that multiple progr
 -   If the shared library is missing or incompatible, the program may fail to run.
 
 #### Example: Creating and Using a Shared Library
-
+```sh
 # Step 1: Compile source files as Position-Independent Code (PIC)
 gcc -fPIC -c libmath.c -o libmath.o
 
@@ -229,7 +228,7 @@ gcc main.c -o main_program -L. -lmath
 
 # Step 4: Set the library path (if needed)
 export LD_LIBRARY_PATH=.
-
+```
 
 ### 3.4. Comparison Table
 
