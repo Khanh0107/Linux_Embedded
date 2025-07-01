@@ -46,3 +46,11 @@ int main() {
     return 0;
 }
 ```
+
+```sh
+Chương trình đang chạy. Nhấn Ctrl+C để gửi tín hiệu SIGINT.
+^CSIGINT received (1)
+^CSIGINT received (2)
+^CSIGINT received (3)
+received SIGINT 3 times.
+```
