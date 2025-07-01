@@ -47,7 +47,7 @@ int main() {
 }
 ```
 
-**Output **
+**Output**
 
 ```sh
 Chương trình đang chạy. Nhấn Ctrl+C để gửi tín hiệu SIGINT.
