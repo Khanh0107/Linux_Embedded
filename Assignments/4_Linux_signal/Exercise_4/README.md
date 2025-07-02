@@ -18,7 +18,7 @@ Dừng chương trình sau khi đã gửi tín hiệu 5 lần.
 
 Dùng kill() để gửi tín hiệu từ process cha đến process con, và sử dụng signal() trong process con để bắt tín hiệu SIGUSR1.
 
-``
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
