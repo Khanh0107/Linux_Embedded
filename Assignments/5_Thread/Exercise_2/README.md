@@ -92,3 +92,18 @@ int main() {
     return 0;
 }
 ```
+
+**Output**
+
+```sh
+Input the name of student: 
+Khanh
+Input the birth year of student: 
+2000
+Input the hometown of student: 
+TPHCM
+Name student is Khanh
+Birth year is 2000
+Home town is TPHCM
+```
+
