@@ -1,4 +1,4 @@
-**Question: **
+**Question**
 
 Viết một chương trình sử dụng thư viện pthread.h để thực hiện các thao tác sau:
 
