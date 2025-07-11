@@ -480,3 +480,18 @@ char *get_local_ip() {
     return ip;
 }
 ```
+## Summary
+
+- **Sockets** are a network communication tool, supporting both **Internet Domain** (TCP/UDP) and **Unix Domain**.
+  
+- **Internet Sockets**:
+  - Support IPv4 (`AF_INET`) and IPv6 (`AF_INET6`).
+  - Require address conversion between host and network byte order (using `htons`, `ntohl`, etc.).
+    
+- **Unix Sockets**:
+  - Used for communication on the same device (`AF_UNIX`).
+  - Use `struct sockaddr_un` to assign addresses via `path_name`.
+    
+- **Workflow**:
+  - Stream Socket (TCP): Requires a connection setup.
+  - Datagram Socket (UDP): Does not require a connection setup.
