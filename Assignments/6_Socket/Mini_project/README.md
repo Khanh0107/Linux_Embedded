@@ -1,28 +1,28 @@
 # 1. Requirement Tính Năng (Functional Requirements)
 
-Giao diện dòng lệnh (Command Line Interface - CLI):
+- Giao diện dòng lệnh (Command Line Interface - CLI):
 
-Ứng dụng phải hoạt động qua giao diện dòng lệnh và cung cấp các lệnh như help, myip, myport, connect, list, terminate, send, và exit.
+  - Ứng dụng phải hoạt động qua giao diện dòng lệnh và cung cấp các lệnh như help, myip, myport, connect, list, terminate, send, và exit.
 
-Hiển thị thông tin:
+- Hiển thị thông tin:
 
-help: Hiển thị hướng dẫn sử dụng các lệnh.
+    - help: Hiển thị hướng dẫn sử dụng các lệnh.
 
-myip: Hiển thị địa chỉ IP của máy đang chạy chương trình.
+    - myip: Hiển thị địa chỉ IP của máy đang chạy chương trình.
 
-myport: Hiển thị port mà chương trình đang lắng nghe kết nối.
+    - myport: Hiển thị port mà chương trình đang lắng nghe kết nối.
 
-Kết nối TCP giữa các peer:
+- Kết nối TCP giữa các peer:
 
-connect <destination> <port>: Tạo kết nối TCP đến một peer khác qua IP và port được chỉ định.
+    - connect <destination> <port>: Tạo kết nối TCP đến một peer khác qua IP và port được chỉ định.
 
-Cần xử lý các trường hợp:
+    - Cần xử lý các trường hợp:
 
-IP không hợp lệ.
+        - IP không hợp lệ.
 
-Tự kết nối (self-connections).
+        - Tự kết nối (self-connections).
 
-Kết nối trùng lặp.
+        - Kết nối trùng lặp.
 
 Quản lý danh sách kết nối:
 
