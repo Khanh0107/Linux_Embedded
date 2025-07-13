@@ -60,3 +60,9 @@ int main(int argc, char const *argv[])   /* Cấp phát stack frame cho hàm 
     return 0;
 }
 ```
+
+**Output**
+
+```sh
+From parent: HELLO child
+```
