@@ -1,10 +1,48 @@
-BT4. 
+## Question
 
 Viết một chương trình có thể bỏ qua tín hiệu SIGTSTP (thường là Ctrl+Z).
-Sử dụng signal() hoặc sigaction() để bắt và bỏ qua tín hiệu SIGTSTP.
-Khi nhận tín hiệu SIGTSTP, chương trình sẽ không dừng mà tiếp tục chạy và in thông báo "SIGTSTP ignored".
-Gợi ý: Đảm bảo chương trình sẽ tiếp tục chạy thay vì bị dừng khi nhấn Ctrl+Z.
-Câu hỏi: Điều gì xảy ra nếu không xử lý tín hiệu SIGTSTP và người dùng nhấn Ctrl+Z?
+- Sử dụng signal() hoặc sigaction() để bắt và bỏ qua tín hiệu SIGTSTP.
+- Khi nhận tín hiệu SIGTSTP, chương trình sẽ không dừng mà tiếp tục chạy và in thông báo "SIGTSTP ignored".
+
+**Gợi ý:** Đảm bảo chương trình sẽ tiếp tục chạy thay vì bị dừng khi nhấn Ctrl+Z.
+
+**Câu hỏi:** Điều gì xảy ra nếu không xử lý tín hiệu SIGTSTP và người dùng nhấn Ctrl+Z?
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+
+int sigint_count = 0;  // Biến đếm số lần nhận SIGINT
+
+void handle_sigstop(int sig) {
+    printf("SIGTSTP ignored\n");
+    // exit(0);  // Thoát chương trình
+
+}
+
+int main() {
+    // Đăng ký hàm xử lý SIGINT
+    signal(SIGTSTP, handle_sigstop);
+
+    printf("Chương trình đang chạy. Nhấn Ctrl+Zđể gửi tín hiệu SIGSTOP.\n");
+
+    // Vòng lặp vô hạn để chương trình tiếp tục chạy
+    while (1) {
+        
+    }
+
+    return 0;
+}
+```
+
+**Output**
+
+```sh
+Chương trình đang chạy. Nhấn Ctrl+Zđể gửi tín hiệu SIGSTOP.
+^ZSIGTSTP ignored
+```
 
 
 BT5. 
