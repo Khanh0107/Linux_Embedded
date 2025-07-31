@@ -21,8 +21,8 @@ void chat_func(int new_socket_fd)
     char recvbuff[BUFF_SIZE];
 	
     while (1) {        
-        memset(sendbuff, '0', BUFF_SIZE);
-        memset(recvbuff, '0', BUFF_SIZE);
+        memset(sendbuff, '0', BUFF_SIZE); // khởi tạo/đặt giá trị cho toàn bộ vùng nhớ = '0'
+        memset(recvbuff, '0', BUFF_SIZE); // khởi tạo/đặt giá trị cho toàn bộ vùng nhớ = '0'
 
         /* Đọc dữ liệu từ socket */
         /* Hàm read sẽ block cho đến khi đọc được dữ liệu */
