@@ -18,8 +18,8 @@ void chat_func(int server_fd)
     char recvbuff[BUFF_SIZE];
     char sendbuff[BUFF_SIZE];
     while (1) {
-        memset(sendbuff, '0', BUFF_SIZE);
-	memset(recvbuff, '0', BUFF_SIZE);
+        memset(sendbuff, '0', BUFF_SIZE); // khởi tạo/đặt giá trị cho toàn bộ vùng nhớ = '0'
+	memset(recvbuff, '0', BUFF_SIZE); // khởi tạo/đặt giá trị cho toàn bộ vùng nhớ = '0'
         printf("Please enter the message : ");
         fgets(sendbuff, BUFF_SIZE, stdin);
 
