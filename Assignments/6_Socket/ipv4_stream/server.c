@@ -65,25 +65,24 @@ int main(int argc, char *argv[])
         printf("No port provided\ncommand: ./server <port number>\n");
         exit(EXIT_FAILURE);
     } else
-        port_no = atoi(argv[1]);
+	port_no = atoi(argv[1]); // convert string to integer
 
-    memset(&serv_addr, 0, sizeof(struct sockaddr_in));
-    memset(&client_addr, 0, sizeof(struct sockaddr_in));
+    memset(&serv_addr, 0, sizeof(struct sockaddr_in)); // Gán toàn bộ vùng nhớ của cấu trúc serv_addr bằng 0
+    memset(&client_addr, 0, sizeof(struct sockaddr_in)); // Gán toàn bộ vùng nhớ của cấu trúc client_addr bằng 0
     
     /* Tạo socket */
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd == -1)
         handle_error("socket()");
-    // fprintf(stderr, "ERROR on socket() : %s\n", strerror(errno));
 
     /* Ngăn lỗi : “address already in use” */
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
         handle_error("setsockopt()");  
 
     /* Khởi tạo địa chỉ cho server */
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port_no);
-    serv_addr.sin_addr.s_addr =  INADDR_ANY; //inet_addr("192.168.5.128"); //INADDR_ANY
+    serv_addr.sin_family = AF_INET; // sử dụng IPv4.
+    serv_addr.sin_port = htons(port_no); // chuyển đổi số port từ byte order của máy (host) sang network byte order (big-endian).
+    serv_addr.sin_addr.s_addr =  INADDR_ANY; //server sẽ lắng nghe trên tất cả các địa chỉ IP khả dụng của máy tính.
 
     /* Gắn socket với địa chỉ server */
     if (bind(server_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1)
@@ -98,16 +97,16 @@ int main(int argc, char *argv[])
 
     while (1) {
         printf("Server is listening at port : %d \n....\n",port_no);
+	    // Chấp nhận kết nối đến từ client đang chờ trong hàng đợi của socket server (do listen() tạo ra)
+        //và trả về socket mô tả kết nối mới để server sử dụng trao đổi dữ liệu với client.
 		new_socket_fd  = accept(server_fd, (struct sockaddr*)&client_addr, (socklen_t *)&len); 
 		if (new_socket_fd == -1)
             handle_error("accept()");
 
 		system("clear");
 		
-		//char temp[BUFF_SIZE];
-		//inet_ntop(client_addr.sin_family, (struct sockaddr*)&client_addr, temp, sizeof(temp));
 		printf("Server : got connection \n");
-		        chat_func(new_socket_fd);
+		chat_func(new_socket_fd);
     }
     close(server_fd);
     return 0;
