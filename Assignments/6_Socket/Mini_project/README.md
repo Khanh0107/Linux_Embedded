@@ -117,71 +117,70 @@
 #define MAX_MESSAGE_LEN 100U
 #define BUFFER_SIZE     128U
 
-// Structure to store connection information
+// Cấu trúc lưu thông tin kết nối
 typedef struct {
-    int id;
-    int socket_fd;
-    char ip[INET_ADDRSTRLEN];
-    int port;
-    pthread_t thread;
-    int active;
+    int id;                                // ID duy nhất của kết nối
+    int socket_fd;                         // Mô tả socket của kết nối
+    char ip[INET_ADDRSTRLEN];              // Địa chỉ IP dưới dạng chuỗi
+    int port;                              // Cổng từ phía đối tác
+    pthread_t thread;                      // ID của luồng xử lý kết nối
+    int active;                            // Cờ đánh dấu kết nối còn hoạt động hay không
 } Connection;
 
-// Global variables
-Connection connections[MAX_CONNECTIONS];
-int connection_count = 0;
-int listen_port = 12345; // Default listening port
-pthread_mutex_t connection_mutex = PTHREAD_MUTEX_INITIALIZER;
+// Biến toàn cục
+Connection connections[MAX_CONNECTIONS];   // Mảng lưu trữ tất cả các kết nối
+int connection_count = 0;                  // Số lượng kết nối hiện tại
+int listen_port = 12345;                   // Cổng mặc định để lắng nghe
+pthread_mutex_t connection_mutex = PTHREAD_MUTEX_INITIALIZER; // Mutex để bảo vệ truy cập vào danh sách kết nối
 
-// Function declarations
-void *server_thread(void *arg);
-void *connection_handler(void *arg);
-void handle_command(char *command);
-int validate_ip(const char *ip);
-void cleanup_connection(int id);
-char *get_local_ip();
-void display_message(const char *ip, int port, const char *message);
+// Khai báo hàm
+void *server_thread(void *arg);           // Luồng máy chủ để lắng nghe các kết nối đến
+void *connection_handler(void *arg);      // Luồng xử lý một kết nối cụ thể
+void handle_command(char *command);       // Hàm xử lý lệnh từ người dùng
+int validate_ip(const char *ip);          // Kiểm tra địa chỉ IP có hợp lệ hay không
+void cleanup_connection(int id);          // Giải phóng kết nối với ID cho trước
+char *get_local_ip();                     // Lấy địa chỉ IP của máy cục bộ
+void display_message(const char *ip, int port, const char *message); // Hiển thị tin nhắn từ đối tác
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
-        listen_port = atoi(argv[1]);
+        listen_port = atoi(argv[1]);      // Nếu có đối số dòng lệnh, dùng làm cổng lắng nghe
     } else {
-        printf("Usage: %s <port>\n", argv[0]);
-        printf("Using default port %d\n", listen_port);
+        printf("Usage: %s <port>\n", argv[0]); // Hướng dẫn sử dụng nếu không có đối số
+        printf("Using default port %d\n", listen_port); // Thông báo dùng cổng mặc định
     }
 
-    // Initialize connections array
+    // Khởi tạo mảng kết nối
     for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        connections[i].active = 0;
+        connections[i].active = 0;        // Đặt tất cả kết nối thành không hoạt động ban đầu
     }
 
-    // Start server thread to listen for incoming connections
+    // Tạo luồng máy chủ để lắng nghe các kết nối đến
     pthread_t server_tid;
     if (pthread_create(&server_tid, NULL, server_thread, NULL) != 0) {
         printf("Failed to start server thread");
         exit(EXIT_FAILURE);
     }
 
-    // Main loop for CLI
+    // Vòng lặp chính để xử lý lệnh từ bàn phím
     char command[BUFFER_SIZE];
     while (1) {
         printf("> ");
-        fgets(command, BUFFER_SIZE, stdin);
-        command[strcspn(command, "\n")] = 0; // Remove newline
-        handle_command(command);
+        fgets(command, BUFFER_SIZE, stdin); // Nhận lệnh từ người dùng
+        command[strcspn(command, "\n")] = 0; // Loại bỏ ký tự newline
+        handle_command(command);            // Gọi hàm xử lý lệnh
     }
 
-    return 0;
+    return 0; // Không bao giờ tới đây vì vòng lặp vô hạn
 }
 
 void *server_thread(void *arg) {
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0); // Tạo socket TCP
     if (server_fd < 0) {
         printf("Socket creation failed");
         exit(EXIT_FAILURE);
     }
 
-    // Enable SO_REUSEADDR to allow port reuse
     int opt = 1;
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
         printf("setsockopt failed");
@@ -190,9 +189,9 @@ void *server_thread(void *arg) {
     }
 
     struct sockaddr_in server_addr;
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(listen_port);
+    server_addr.sin_family = AF_INET;             // Địa chỉ IPv4
+    server_addr.sin_addr.s_addr = INADDR_ANY;     // Lắng nghe mọi địa chỉ IP cục bộ
+    server_addr.sin_port = htons(listen_port);    // Gán cổng lắng nghe
 
     if (bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
         printf("Bind failed");
@@ -200,7 +199,7 @@ void *server_thread(void *arg) {
         exit(EXIT_FAILURE);
     }
 
-    if (listen(server_fd, 5) < 0) {
+    if (listen(server_fd, 5) < 0) {                // Bắt đầu lắng nghe, hàng đợi tối đa 5
         printf("Listen failed");
         close(server_fd);
         exit(EXIT_FAILURE);
@@ -211,14 +210,13 @@ void *server_thread(void *arg) {
     while (1) {
         struct sockaddr_in client_addr;
         socklen_t client_len = sizeof(client_addr);
-        int client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
+        int client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len); // Chấp nhận kết nối đến
         if (client_fd < 0) {
             printf("Accept failed");
             continue;
         }
 
-        // Add new connection to the list
-        pthread_mutex_lock(&connection_mutex);
+        pthread_mutex_lock(&connection_mutex); // Bảo vệ vùng ghi danh sách kết nối
         if (connection_count >= MAX_CONNECTIONS) {
             printf("Error: Maximum connections reached.\n");
             close(client_fd);
@@ -229,15 +227,14 @@ void *server_thread(void *arg) {
         int id = connection_count++;
         connections[id].id = id;
         connections[id].socket_fd = client_fd;
-        inet_ntop(AF_INET, &client_addr.sin_addr, connections[id].ip, INET_ADDRSTRLEN);
-        connections[id].port = ntohs(client_addr.sin_port);
+        inet_ntop(AF_INET, &client_addr.sin_addr, connections[id].ip, INET_ADDRSTRLEN); // Chuyển địa chỉ IP nhị phân ➝ chuỗi
+        connections[id].port = ntohs(client_addr.sin_port); // Chuyển byte order của port
         connections[id].active = 1;
         pthread_mutex_unlock(&connection_mutex);
 
         printf("New connection from %s:%d (ID: %d)\n", connections[id].ip, connections[id].port, id);
 
-        // Start a thread to handle this connection
-        pthread_create(&connections[id].thread, NULL, connection_handler, &connections[id]);
+        pthread_create(&connections[id].thread, NULL, connection_handler, &connections[id]); // Tạo luồng xử lý kết nối
     }
 
     close(server_fd);
@@ -480,4 +477,8 @@ char *get_local_ip() {
     return ip;
 }
 ```
+
+**Output**
+
+<img width="1508" height="895" alt="image" src="https://github.com/user-attachments/assets/5fd0c8dd-5e01-4557-8869-ed3b1f985e2e" />
 
