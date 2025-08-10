@@ -24,7 +24,7 @@ The architecture ensures thread-safe communication, dynamic sensor node connecti
      - **Data Manager**: Processes sensor data, calculates running averages for temperature, and determines "too hot/cold" states (Req 5).
      - **Storage Manager**: Reads data from the shared buffer and stores it in an SQLite database, with retry logic for database connection failures (Req 6).
    - Uses a **single** shared buffer (`sbuffer`) for thread communication, protected by synchronization primitives (Req 2).  **(Need to improve)**
-   - 
+     
 3. **SQLite Database**:
    - Stores sensor measurements processed by the storage manager.
    - Supports dynamic table creation and data insertion (Req 6, 9).
@@ -53,6 +53,7 @@ The architecture ensures thread-safe communication, dynamic sensor node connecti
 
 ## Directory Structure
 
+```
 ├── bin
 │   ├── gateway
 │   ├── sensor_1
@@ -80,5 +81,5 @@ The architecture ensures thread-safe communication, dynamic sensor node connecti
     ├── main.c
     ├── shared_data_pipe.c
     └── storage_data.c
-
+```
 
